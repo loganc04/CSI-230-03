@@ -1,1 +1,1 @@
-﻿Get-Service | Where-Object -Filter {$_.Status -eq "Stopped" } | Sort-Object | Export-Csv "out.csv"
+﻿Get-Service | Where-Object -Filter {$_.Status -eq "Stopped" } | Sort-Object | Export-Csv -Path "$PSScriptRoot\stopped_services.csv" -NoTypeInfo
