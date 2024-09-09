@@ -1,0 +1,7 @@
+#TYPE Selected.System.IO.FileInfo
+"Name"
+"list files and output to.csv.ps1"
+"list files.ps1"
+"make folder.ps1"
+"print dns server ip from eth0.ps1"
+"rename items.ps1"
