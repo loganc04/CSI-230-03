@@ -1,5 +1,7 @@
-﻿Get-EventLog System -source Microsoft-Windows-Winlogon
+﻿# Number 1
+Get-EventLog System -source Microsoft-Windows-Winlogon
 
+# Number 2
 $loginouts = Get-EventLog System -source Microsoft-Windows-Winlogon -After (Get-Date).AddDays(-14)
 
 $loginoutsTable = @()
@@ -20,6 +22,7 @@ $loginoutsTable += [pscustomobject]@{"Time" = $loginouts[$i].TimeGenerated; `
 $loginoutsTable | Format-Table -AutoSize -Wrap
 
 
+# Number 3
 $loginouts = Get-EventLog System -source Microsoft-Windows-Winlogon -After (Get-Date).AddDays(-14)
 
 $loginoutsTable = @()
@@ -45,7 +48,7 @@ $loginoutsTable += [pscustomobject]@{"Time" = $loginouts[$i].TimeGenerated; `
 $loginoutsTable | Format-Table -AutoSize -Wrap
 
 
-
+# Number 4
 function getLogsFromDays($numDays) {
 Write-Host "Printing logon logs for $numDays days..."
 $loginouts = Get-EventLog System -source Microsoft-Windows-Winlogon -After (Get-Date).AddDays(-$numDays)
@@ -79,7 +82,7 @@ $logs = getLogsFromDays(3)
 $logs
 
 
-
+# Number 5
 function getPowerLogs($numDays) {
 Write-Host "Prining power logs for $numDays days..."
 # Originally, this was
