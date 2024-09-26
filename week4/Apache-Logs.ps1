@@ -1,4 +1,9 @@
-﻿function Get-VisitedIPs($page, $httpCode, $browser) {
+﻿function Get-VisitedIPs {
+param (
+[string]$page,
+[int]$httpCode,
+[string]$browser
+)
 $visits = Get-Content -Path C:\xampp\apache\logs\access.log
 
 $tableRecords = @()
@@ -12,7 +17,7 @@ $tableRecords += [pscustomobject]@{ "IP" = $words[0]; `
                                     "Page" = $words[6]; `
                                     "Protocol" = $words[7]; `
                                     "Response" = $words[8]; `
-                                    "Referrer" = $words[$i]; `
+                                    "Referrer" = $words[10]; `
                                     "Client" = $words[11..($words.Length)]; }
                                  
 }
@@ -22,4 +27,5 @@ $tableRecords = Get-VisitedIPs
 $tableRecords | Format-Table -AutoSize -Wrap
 
 
-Get-VisitedIPs("page1.html", "200", "Mozilla")
+#Get-VisitedIPs("page1.html", "200", "Mozilla")
+Get-VisitedIPs -page "page1.html" -httpCode 200 -browser "Mozilla" | Format-Table -AutoSize -Wrap

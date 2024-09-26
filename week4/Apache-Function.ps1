@@ -1,6 +1,5 @@
 ﻿function ApacheLogs1() {
 $visits = Get-Content -Path C:\xampp\apache\logs\access.log
-
 $tableRecords = @()
 
 for($i=0; $i -lt $visits.Count; $i++) {
@@ -12,11 +11,11 @@ $tableRecords += [pscustomobject]@{ "IP" = $words[0]; `
                                     "Page" = $words[6]; `
                                     "Protocol" = $words[7]; `
                                     "Response" = $words[8]; `
-                                    "Referrer" = $words[$i]; `
+                                    "Referrer" = $words[10]; `
                                     "Client" = $words[11..($words.Length)]; }
                                  
 }
 return $tableRecords | Where-Object { $_.IP -ilike "10.*" }
 }
-$tableRecords = Get-VisitedIPs
+$tableRecords = ApacheLogs1
 $tableRecords | Format-Table -AutoSize -Wrap
