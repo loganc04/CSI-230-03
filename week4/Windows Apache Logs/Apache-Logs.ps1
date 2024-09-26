@@ -27,5 +27,4 @@ $tableRecords = Get-VisitedIPs
 $tableRecords | Format-Table -AutoSize -Wrap
 
 
-#Get-VisitedIPs("page1.html", "200", "Mozilla")
 Get-VisitedIPs -page "/page1.html" -httpCode 200 -browser "Firefox" | Format-Table -AutoSize -Wrap
