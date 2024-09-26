@@ -21,11 +21,11 @@ $tableRecords += [pscustomobject]@{ "IP" = $words[0]; `
                                     "Client" = $words[11..($words.Length)]; }
                                  
 }
-return $tableRecords | Where-Object { ($_.Page -ilike $page) -or ($_.Response -ilike $httpCode) -or ($_.Client -ilike $browser) }
+return $tableRecords | Where-Object { ($_.Page -eq $page) -and ($_.Response -eq $httpCode) -and ($_.Client -ilike "*$browser*") }
 }
 $tableRecords = Get-VisitedIPs
 $tableRecords | Format-Table -AutoSize -Wrap
 
 
 #Get-VisitedIPs("page1.html", "200", "Mozilla")
-Get-VisitedIPs -page "page1.html" -httpCode 200 -browser "Mozilla" | Format-Table -AutoSize -Wrap
+Get-VisitedIPs -page "/page1.html" -httpCode 200 -browser "Firefox" | Format-Table -AutoSize -Wrap
