@@ -22,3 +22,12 @@ $FullTable += [pscustomobject]@{"Class Code" = $tds[0].innerHTML; `
 }
 return $FullTable
 }
+
+
+function daysTranslator($FullTable) {
+    for ($i=0; i -lt $FullTable.length; $i++) {
+        $Days = @()
+
+
+    }
+}
