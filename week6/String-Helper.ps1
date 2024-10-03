@@ -27,3 +27,15 @@ for($j=0; $j -lt $splitted.Count; $j++){
 
 return $allines
 }
+
+
+function checkPassword($passwd) {
+    write-host $passwd
+
+    if ($passwd.length -gt 6) {
+    Write-Host "Failed Length Test" | Out-String
+    return $false
+    }
+    
+    elseif($passwd -
+}

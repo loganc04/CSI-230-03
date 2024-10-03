@@ -73,3 +73,8 @@ function enableAUser($name){
    Enable-LocalUser $userToBeEnabled
    
 }
+
+
+function checkUser($name) {
+
+}
