@@ -76,5 +76,10 @@ function enableAUser($name){
 
 
 function checkUser($name) {
-
+    $users = Get-LocalUser | Where-Object { $_.name -ilike $name }
+    if($users.Count -lt 1) {
+        return $false
+    } else {
+     return $true
+    }
 }

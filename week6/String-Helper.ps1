@@ -32,10 +32,25 @@ return $allines
 function checkPassword($passwd) {
     write-host $passwd
 
-    if ($passwd.length -gt 6) {
-    Write-Host "Failed Length Test" | Out-String
+    if ($passwd.length -lt 6) {
+     Write-Host "Failed Length Test" | Out-String
     return $false
     }
     
-    elseif($passwd -
+    elseif($passwd -notmatch "\d") {
+     Write-Host "Failed Digit Test" | Out-String
+    return $false
+    }
+    elseif($passwd -inotlike "*[!@#$%^&*()_+=-><\\\.\,]*") {
+     Write-Host "Failed Special C Test" | Out-String
+    return $false
+    }
+    elseif($passwd -notmatch "[A-z]") {
+     Write-Host "Failed Letter Test" | Out-String
+    return $false
+    }
+    else {
+        Write-Host "Here"
+        return $true
+    }
 }
