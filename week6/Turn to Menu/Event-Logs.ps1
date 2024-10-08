@@ -42,6 +42,9 @@ function getFailedLogins($timeBack){
 
   $failedloginsTable = @()
   for($i=0; $i -lt $failedlogins.Count; $i++){
+  if ($failedlogins -eq 10) {
+  exit
+  }
 
     $account=""
     $domain="" 
@@ -64,3 +67,22 @@ function getFailedLogins($timeBack){
 
     return $failedloginsTable
 } # End of function getFailedLogins
+
+
+
+
+function getAtRiskUsers($timeBack){
+  
+$atRiskLogins = Get-EventLog security -After (Get-Date).AddDays("-"+"$timeBack") | Where { $_.InstanceID -eq "4625" }
+  $counts = $atRiskLogins | Group-Object User | Where-Object {$_.Count -ge 10 }
+  $atRiskTable = @()
+  for($i=0; $i -lt $atRiskLogins.Count; $i++){
+  
+ $atRiskTable += [pscustomobject]@{ "User" = "$user"; `
+                                     "Count" = $counts;
+                                     }
+
+  }
+
+    return $atRiskTable
+} 

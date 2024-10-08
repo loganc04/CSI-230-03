@@ -41,7 +41,7 @@ function checkPassword($passwd) {
      Write-Host "Failed Digit Test" | Out-String
     return $false
     }
-    elseif($passwd -inotlike "*[!@#$%^&*()_+=-><\\\.\,]*") {
+    elseif($passwd -inotlike "*[!@#$%^&*()+=-><\\\,]*") {
      Write-Host "Failed Special C Test" | Out-String
     return $false
     }

@@ -12,7 +12,8 @@ $Prompt += "5 - Enable a User`n"
 $Prompt += "6 - Disable a User`n"
 $Prompt += "7 - Get Log-In Logs`n"
 $Prompt += "8 - Get Failed Log-In Logs`n"
-$Prompt += "9 - Exit`n"
+$Prompt += "9 - List at-risk Users`n"
+$Prompt += "13 - Exit`n"
 
 
 
@@ -25,7 +26,7 @@ while($operation){
     $choice = Read-Host 
 
 
-    if($choice -eq 9){
+    if($choice -eq 13){
         Write-Host "Goodbye" | Out-String
         exit
         $operation = $false 
@@ -74,11 +75,16 @@ while($operation){
 
         $name = Read-Host -Prompt "Please enter the username for the user to be removed"
 
-        # TODO: Check the given username with the checkUser function.
+        $chkUser = checkUser $name
 
+        if($chkUser -ne $false) {
         removeAUser $name
-
         Write-Host "User: $name Removed." | Out-String
+        }
+
+       else {
+       Write-Host "User does not exist."
+       }
     }
 
 
@@ -88,11 +94,17 @@ while($operation){
 
         $name = Read-Host -Prompt "Please enter the username for the user to be enabled"
 
-        # TODO: Check the given username with the checkUser function.
+        $chkUser = checkUser $name
+
+        if($chkUser -eq $true) {
+  
 
         enableAUser $name
 
         Write-Host "User: $name Enabled." | Out-String
+        } else {
+        Write-Host "User does not exist."
+        }
     }
 
 
@@ -101,11 +113,15 @@ while($operation){
 
         $name = Read-Host -Prompt "Please enter the username for the user to be disabled"
 
-        # TODO: Check the given username with the checkUser function.
+        $chkUser = checkUser $name
+
+        if ($chkUser -eq $true) {
 
         disableAUser $name
 
         Write-Host "User: $name Disabled." | Out-String
+        } else {
+        Write-Host "User does not exist." }
     }
 
 
@@ -113,12 +129,16 @@ while($operation){
 
         $name = Read-Host -Prompt "Please enter the username for the user logs"
 
-        # TODO: Check the given username with the checkUser function.
+        $chkUser = checkUser $name
 
-        $userLogins = getLogInAndOffs 90
-        # TODO: Change the above line in a way that, the days 90 should be taken from the user
+        if ($chkUser -eq $true) {
+        $timeSince = Read-Host -Prompt "Please enter the number of days to search back."
+        $userLogins = getLogInAndOffs $timeSince
+
 
         Write-Host ($userLogins | Where-Object { $_.User -ilike "*$name"} | Format-Table | Out-String)
+        } else {
+        Write-Host "User does not exist." }
     }
 
 
@@ -126,26 +146,29 @@ while($operation){
 
         $name = Read-Host -Prompt "Please enter the username for the user's failed login logs"
 
-        # TODO: Check the given username with the checkUser function.
+        $chkUser = checkUser $name
+        if($chkUser -eq $true) {
+        $timeSince = Read-Host -Prompt "Please enter the number of days to search back."
 
-        $userLogins = getFailedLogins 90
-        # TODO: Change the above line in a way that, the days 90 should be taken from the user
+        $userLogins = getFailedLogins $timeSince
 
         Write-Host ($userLogins | Where-Object { $_.User -ilike "*$name"} | Format-Table | Out-String)
+    } else {
+    Write-Host "User does not exist." }
+
+} elseif($choice -eq 9) {
+    $timeSince = Read-Host -Prompt "Please enter the number of days to search back."
+
+        $userLogins = getAtRiskUsers $timeSince
+
+        Write-Host ($userLogins | Format-Table | Out-String)
     }
 
-
-    # TODO: Create another choice "List at Risk Users" that
-    #              - Lists all the users with more than 10 failed logins in the last <User Given> days.  
-    #                (You might need to create some failed logins to test)
-    #              - Do not forget to update prompt and option numbers
-    
-    # TODO: If user enters anything other than listed choices, e.g. a number that is not in the menu   
-    #       or a character that should not be accepted. Give a proper message to the user and prompt again.
-    
-
+else {
+Write-Host "Invalid option. Please try again." | Out-String
 }
 
 
+}
 
 
