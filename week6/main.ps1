@@ -13,7 +13,7 @@ $Prompt += "6 - Disable a User`n"
 $Prompt += "7 - Get Log-In Logs`n"
 $Prompt += "8 - Get Failed Log-In Logs`n"
 $Prompt += "9 - List at-risk Users`n"
-$Prompt += "13 - Exit`n"
+$Prompt += "10 - Exit`n"
 
 
 
@@ -26,7 +26,7 @@ while($operation){
     $choice = Read-Host 
 
 
-    if($choice -eq 13){
+    if($choice -eq 10){
         Write-Host "Goodbye" | Out-String
         exit
         $operation = $false 

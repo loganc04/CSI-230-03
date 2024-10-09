@@ -42,9 +42,6 @@ function getFailedLogins($timeBack){
 
   $failedloginsTable = @()
   for($i=0; $i -lt $failedlogins.Count; $i++){
-  if ($failedlogins -eq 10) {
-  exit
-  }
 
     $account=""
     $domain="" 
@@ -73,16 +70,26 @@ function getFailedLogins($timeBack){
 
 function getAtRiskUsers($timeBack){
   
-$atRiskLogins = Get-EventLog security -After (Get-Date).AddDays("-"+"$timeBack") | Where { $_.InstanceID -eq "4625" }
-  $counts = $atRiskLogins | Group-Object User | Where-Object {$_.Count -ge 10 }
+  $atRiskLogins = Get-EventLog security -After (Get-Date).AddDays("-"+"$timeBack") | Where { $_.InstanceID -eq "4625" }
+  $atRiskUsers = $atRiskLogins | Group-Object User | Select-Object Name, Count | Where-Object {$_.Count -gt 10 }
+
+
   $atRiskTable = @()
-  for($i=0; $i -lt $atRiskLogins.Count; $i++){
-  
- $atRiskTable += [pscustomobject]@{ "User" = "$user"; `
-                                     "Count" = $counts;
-                                     }
+  for($i=0; $i -lt $atRiskUsers.Count; $i++){
 
-  }
+    $account=""
+    $domain="" 
 
+    $usrlines = getMatchingLines $atRiskLogins[$i].Message "*Account Name*"
+    $usr = $usrlines[1].Split(":")[1].trim()
+
+    $dmnlines = getMatchingLines $atRiskLogins[$i].Message "*Account Domain*"
+    $dmn = $dmnlines[1].Split(":")[1].trim()
+
+    $user = $dmn+"\"+$usr;
+
+    $atRiskTable += [pscustomobject]@{"User" = $user;}
+
+    }
     return $atRiskTable
 } 
