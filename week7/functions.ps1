@@ -20,8 +20,7 @@ function changeConfiguration {
     $timeValid = $false
 
     while ($daysValid -eq $false) {
-        Write-Host "Enter the number of days for which the logs will be obtained: " | Out-String
-        $newConfigDays = Read-Host
+        $newConfigDays = Read-Host "Enter the number of days for which the logs will be obtained"
         if ($newConfigDays -match "\d{1,3}") {
             $daysValid = $true  
         }
@@ -32,8 +31,7 @@ function changeConfiguration {
     }
 
     while ($timeValid -eq $false) {
-        Write-Host "Enter the daily execution time for the script: (H:MM AM/PM)" | Out-String
-        $newConfigTime = Read-Host
+        $newConfigTime = Read-Host "Enter the daily execution time for the script (H:MM AM/PM)"
         if ($newConfigTime -match "^[0-9]:[0-5][0-9] [AP]M$") {
             $timeValid = $true  
         }
