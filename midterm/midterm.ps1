@@ -1,4 +1,4 @@
-function getTable() {
+function Challenge1() {
     $scrapped = Invoke-WebRequest -TimeoutSec 10 http://10.0.17.5/IOC.html
     $page = $scrapped.ParsedHtml.body.getElementsByTagName("tr")
     $FullTable = @()
@@ -13,10 +13,10 @@ function getTable() {
     }
     return $FullTable
 }
-getTable
+Challenge1
 
 
-function ApacheLogs() {
+function Challenge2() {
     $visits = Get-Content -Path C:\users\champuser\Desktop\CSI-230\midterm\access.log
     $tableRecords = @()
 
@@ -34,13 +34,13 @@ function ApacheLogs() {
     }
     return $tableRecords
 }
-ApacheLogs | Format-Table
+Challenge2 | Format-Table
 
 
 function Challenge3($logFile, $indicator) {
     $visits = Get-Content -Path C:\users\champuser\Desktop\CSI-230\midterm\$logFile
     $tableRecords = @()
-    
+
     for ($i = 0; $i -lt $visits.Count; $i++) {
         $words = $visits[$i].Split(" ")
         $tableRecords += [pscustomobject]@{
