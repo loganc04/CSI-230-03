@@ -1,6 +1,6 @@
 #! /bin/bash
 
-logFile="/var/log/apache2/access.log"
+logFile="/var/log/apache2/access.log.1"
 
 function displayAllLogs(){
 	cat "$logFile"
@@ -43,21 +43,11 @@ function histogram(){
 # only with daily number of visits that are greater than 10 
 
 function frequentVisitors() {
-	local visitsPerDay=$(cat "$logFile" | cut -d " " -f 4,1 | tr -d '[' | sort | uniq)
-	:> freq.txt
+	local visitsPerDay=$(cat "$logFile" | cut -d " " -f 4,1 | tr -d '[' | cut -d ":" -f 1 | sort | uniq -c)
 	
-	echo "$visitsPerDay" | while read -r line;
-	do
-		local withoutHours=$(echo "$line" | cut -d " " -f 2 | cut -d ":" -f 1)
-		local ip=$(echo "$line" | cut -d " " -f 1)
-		local arranged=$(echo "$ip $withoutHours")
-			echo "$arranged" >> freq.txt
-	done
+	echo "$visitsPerDay" | awk '{$1 > 10}'
 
-	local sorted=$(cat "freq.txt" | sort -n | uniq -c)
-	:> freq.txt
-	echo "$sorted" >> freq.txt
-	cat "freq.txt"
+	
 }
 
 
