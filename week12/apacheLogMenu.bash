@@ -45,7 +45,7 @@ function histogram(){
 function frequentVisitors() {
 	local visitsPerDay=$(cat "$logFile" | cut -d " " -f 4,1 | tr -d '[' | cut -d ":" -f 1 | sort | uniq -c)
 	
-	echo "$visitsPerDay" | awk '{$1 > 10}'
+	echo "$visitsPerDay" | awk '$1 > 10'
 
 	
 }
