@@ -37,6 +37,16 @@ echo ""
 # Example input: JOYC 310
 # Example output: See the screenshots in canvas
 
+function displayCourses() {
+	echo -n "Please input a class name: "
+	read className
+
+	echo ""
+	echo "Courses in $className:"
+	echo ""
+	cat "$courseFile" | grep "$className" | cut -d ';' -f1,2,5,6,7 | sed 's/;/ | /g'
+}
+
 # TODO - 2
 # Make a function that displays all the courses that has availability
 # (seat number will be more than 0) for the given course code
@@ -44,12 +54,25 @@ echo ""
 # Example input: SEC
 # Example output: See the screenshots in canvas
 
+function availCourses() {
+	echo -n "Please input a subject name: "
+	read subjectName
+
+	echo ""
+	echo "Available courses in $subjectName: "
+	echo ""
+	cat "$courseFile" | grep -i "$subjectName" | cut -d ';' -f 1-10 | awk -F ';' '$4 > 0 {print $0}' | sed 's/;/ | /g'
+}
+
+
 while :
 do
 	echo ""
 	echo "Please select and option:"
 	echo "[1] Display courses of an instructor"
 	echo "[2] Display course count of instructors"
+	echo "[3] Display courses of a classroom"
+	echo "[4] Display available courses of a subject"
 	echo "[5] Exit"
 
 	read userInput
@@ -66,5 +89,13 @@ do
 		courseCountofInsts
 
 	# TODO - 3 Display a message, if an invalid input is given
+	elif [[ "$userInput" == "3" ]]; then
+		displayCourses
+
+	elif [[ "$userInput" == "4" ]]; then
+		availCourses
+
+	else 
+		echo "Invalid input. Please try again."
 	fi
 done
